@@ -29,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -57,12 +58,18 @@ fun MainScreen(){
     var showAnswer = remember { mutableStateOf(false) }
     var rotation = remember { mutableStateOf(0f) }
 
+    //ChatGPT teaches me how to do the rotation
     var animatedRotation = animateFloatAsState(
         targetValue = rotation.value,
         animationSpec = tween(durationMillis = 400))
 
     LazyRow (
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .graphicsLayer {
+                rotationX = animatedRotation.value   //In LazyRow, rotationX is vertical rotation
+                cameraDistance = 12f * density    //by ChatGPT
+            }
+            .fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
@@ -73,7 +80,15 @@ fun MainScreen(){
                 modifier = Modifier
                     .padding(8.dp)
                     .fillParentMaxWidth()
-                    .clickable { showAnswer.value = !showAnswer.value }
+                    .clickable {
+                        if (rotation.value==0f){
+                            rotation.value=180f
+                            showAnswer.value=true
+                        }else{
+                            rotation.value=0f
+                            showAnswer.value=false
+                        }
+                    }
                     .height(200.dp),
                 elevation = CardDefaults.elevatedCardElevation(4.dp),
 
@@ -85,7 +100,8 @@ fun MainScreen(){
                     if (showAnswer.value){
                         Text(
                             text = answer,
-                            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold))
+                            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
+                            modifier = Modifier.graphicsLayer { rotationX=180f })   //when the card is flipped, the text is also flipped. Set the rotationX of text to avoid that
                     }else{
                         Text(
                             text = question,
