@@ -24,6 +24,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.flashcard.ui.theme.FlashcardTheme
+import kotlinx.coroutines.delay
 import org.xmlpull.v1.XmlPullParser
 
 class MainActivity : ComponentActivity() {
@@ -62,6 +65,13 @@ fun MainScreen(){
     var animatedRotation = animateFloatAsState(
         targetValue = rotation.value,
         animationSpec = tween(durationMillis = 400))
+
+    LaunchedEffect(Unit) {
+        while (true){
+            delay(15000)
+            flashcards=flashcards.shuffled()
+        }
+    }
 
     LazyRow (
         modifier = Modifier
