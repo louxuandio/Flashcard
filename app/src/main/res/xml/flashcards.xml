@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<flashcards>
+    <card>
+        <question>What is the capital of France?</question>
+        <answer>Paris</answer>
+    </card>
+
+    <card>
+        <question>Who wrote '1984'?</question>
+        <answer>George Orwell</answer>
+    </card>
+
+    <card>
+        <question>Who is the best new artist for the grammys 2024?</question>
+        <answer>Chappell Roan</answer>
+    </card>
+
+    <card>
+        <question>What is the parent company of ChatGPT?</question>
+        <answer>OpenAI</answer>
+    </card>
+</flashcards>
